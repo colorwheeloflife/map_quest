@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  center_lat: 1.5
+  center_long: 1.5
+  zoom_starting: 1.5
+
+two:
+  center_lat: 1.5
+  center_long: 1.5
+  zoom_starting: 1.5

@@ -1,0 +1,122 @@
+<div id='map'></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3Jhd2ZvMTAiLCJhIjoiY2lmZno0MXJmOTVwaXNlbTdneWh6Z2hsMCJ9.VVx9M0lgoRRwW1WPBv0gqg';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
+    center: [-115.527, 45.243], // starting position
+    zoom: 4.06 // starting zoom
+});
+
+map.on('load', function () {
+    map.addLayer({
+        "id": "artists",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>Stylarosa</strong><p><ul><li>Human Name: ___ </li><li>Origin: ___ </li><li>Place: Oklahoma</li><li><a href=\"https://stylarosa.wordpress.com/category/canvas-and-panel-paintings/\" target=\"_blank\" title=\"Opens in a new window\">Stylarosa.wordpress.com</a></li></ul></p>",
+                        "icon": "theatre"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [49.6842/-115.9830]
+                    }
+                }, {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>Simon Haiduk</strong><p><ul><li>Human Name: Simon Haiduk </li><li>Origin: ___ </li><li>Place: Kimberly, BC</li><li><a href=\"https://simonhaiduk.com/\" target=\"_blank\" title=\"Opens in a new window\">simonhaiduk.com</a></li></ul></p>",
+                        "icon": "theatre"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-115.9830, 49.6842]
+                    }
+                }, {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>Lun Designs</strong><p><ul><li>Human Name: ___ </li><li>Origin: ___ </li><li>Place: Washington </li><li><a href=\"https://www.etsy.com/ca/shop/LUNDESIGNS?ref=pr_faveshops\" target=\"_blank\" title=\"Opens in a new window\"></a>Lune Designs - etsy</li></ul></p>",
+                        "icon": "bar"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-122.2873, 47.6081]
+                    }
+                }, {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>ElohProjects</strong><p><ul><li>Human Name: Sean Allum </li><li>Origin: ___ </li><li>Place: Orange County </li><li><a href=\"https://elohprojects.com/\" target=\"_blank\" title=\"Opens in a new window\">elohprojects.com</a></li></ul></p>",
+                        "icon": "art-gallery"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-117.9101, 33.6624]
+                    }
+                }, {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>Peter Westermann</strong><p><ul><li>Human Name: Peter Westermann </li><li>Origin: ___ </li><li>Place: Denver </li><li><a href=\"https://www.peterwestermann.com/\" target=\"_blank\" title=\"Opens in a new window\">peterwestermann.com</a></li><li>threyda collective manager</li></ul></p>",
+                        "icon": "star"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-104.9807, 39.7308]
+                    }
+                }, {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<strong>Dennis Godeau</strong><p><ul><li>Human Name: Dennis Godeau </li><li>Origin: Prince George </li><li>Place: Prince George </li><li><a href=\"https://www.etsy.com/ca/shop/deeGdesigns?ref=pr_faveshops\" target=\"_blank\" title=\"Opens in a new window\">Denise Godeau - etsy</a></li></ul></p>",
+                        "icon": "music"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-122.7500, 53.9110]
+                    }
+                }]
+            }
+        },
+        "layout": {
+            "icon-image": "{icon}-15",
+            "icon-allow-overlap": true
+        }
+    });
+});
+
+
+var nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-left');
+    map.addControl(new mapboxgl.ScaleControl({
+      maxWidth: 80,
+      unit: 'imperial'
+    }));
+
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['artists'] });
+
+    if (!features.length) {
+        return;
+    }
+
+    var feature = features[0];
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    var popup = new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(feature.properties.description)
+        .addTo(map);
+});
+
+// Use the same approach as above to indicate that the symbols are clickable
+// by changing the cursor style to 'pointer'.
+map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['artists'] });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+});
+</script>
